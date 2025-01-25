@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Git Insight",
@@ -17,9 +18,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={`${GeistSans.variable}`} suppressHydrationWarning>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        
+        <TRPCReactProvider><ThemeProvider attribute="class" 
+        defaultTheme="dark" 
+        forcedTheme="dark"
+        enableSystem={false}>{children}</ThemeProvider></TRPCReactProvider>
+        
       </body>
     </html>
     </ClerkProvider>
