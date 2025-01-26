@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Git Insight",
@@ -20,12 +21,13 @@ export default function RootLayout({
     <ClerkProvider>
     <html lang="en" className={`${GeistSans.variable}`} suppressHydrationWarning>
       <body>
-        
-        <TRPCReactProvider><ThemeProvider attribute="class" 
+      <ThemeProvider attribute="class" 
         defaultTheme="dark" 
         forcedTheme="dark"
-        enableSystem={false}>{children}</ThemeProvider></TRPCReactProvider>
-        
+        enableSystem={false}>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster richColors/>
+        </ThemeProvider>
       </body>
     </html>
     </ClerkProvider>
