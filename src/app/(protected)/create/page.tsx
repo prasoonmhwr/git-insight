@@ -36,7 +36,7 @@ const CreatePage = () => {
     }
     return (
         <div className='flex items-center gap-12 h-full justify-center'>
-            <img src="/git.svg" className='h-56 w-auto' />
+            <img src="/create_project.svg" className='h-56 w-auto' />
             <div>
                 <div>
                     <h1 className='font-smeibold text-2xl'>
