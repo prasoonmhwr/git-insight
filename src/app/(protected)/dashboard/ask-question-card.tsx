@@ -12,13 +12,14 @@ import MDEditor from '@uiw/react-md-editor'
 import CodeReferences from './code-references'
 import { api } from '@/trpc/react'
 import { toast } from 'sonner'
+import useRefetch from '@/hooks/use-refetch'
 
 const AskQuestionCard = () => {
     const {project} = useProject()
     const [open,setOpen] = useState(false)
     const [question,setQuestion] = useState('')
     const [loading,setLoading] = useState(false)
-    const [filesReferences,setFilesReferences] = React.useState<{filename: string; sourceCode: string; summary:string}[]>([])
+    const [filesReferences,setFilesReferences] = React.useState<{fileName: string; sourceCode: string; aiSummary:string}[]>([])
     const [answer, setAnswer] = useState('')
     const saveAnswer = api.project.saveAnswer.useMutation()
     const onSubmit = async (e:React.FormEvent<HTMLFormElement>)=>{
@@ -29,10 +30,9 @@ const AskQuestionCard = () => {
         
         setLoading(true)
 
-        const {output,filesReferences,context} = await askQuestion(question, project.id)
+        const {output,filesReferences} = await askQuestion(question, project.id)
         setOpen(true)
         setFilesReferences(filesReferences)
-        console.log("Context",context)
         for await(const delta of readStreamableValue(output)){
             if(delta){
                 setAnswer(ans=>ans+delta)
@@ -40,6 +40,7 @@ const AskQuestionCard = () => {
         }
         setLoading(false)
     }
+    const refetch = useRefetch()
   return (
     <>
     <Dialog open={open} onOpenChange={setOpen}>
@@ -58,6 +59,7 @@ const AskQuestionCard = () => {
                     },{
                         onSuccess: ()=>{
                             toast.success('Answer saved!')
+                            refetch()
                         },
                         onError: () => {
                             toast.error('Failed to save answer!')

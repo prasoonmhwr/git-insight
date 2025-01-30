@@ -19,15 +19,15 @@ export async function askQuestion(question: string, projectId: string){
     SELECT "fileName","sourceCode","aiSummary",
     1 - ("summaryEmbedding" <=> ${vectorQuery}::vector) AS similarity
     FROM "SourceCodeEmbedding"
-    WHERE 1- ("summaryEmbedding" <=> ${vectorQuery}::vector) > 0.5
+    WHERE 1 - ("summaryEmbedding" <=> ${vectorQuery}::vector) > 0.4
     AND "projectId" = ${projectId}
     ORDER BY similarity DESC
-    LIMIT 10` as {filename: string; sourceCode: string; summary:string;}[]
+    LIMIT 10` as {fileName: string; sourceCode: string; aiSummary:string;}[]
 
     let context = ''
-
+    console.log('Query results:', JSON.stringify(result, null, 2))
     for (const doc of result){
-        context += `source: ${doc.filename}\ncode content: ${doc.sourceCode}\n summary of file: ${doc.summary}\n\n`
+        context += `source: ${doc.fileName}\ncode content: ${doc.sourceCode}\n summary of file: ${doc.aiSummary}\n\n`
     }
     
     (async () => {
@@ -40,7 +40,7 @@ export async function askQuestion(question: string, projectId: string){
             AI is a well-behaved and well-mannered individual.
             AI is always friendly, kind, and inspiring, and he is eager to provide vivid and thoughtful responses to the user.
             AI has the sum of all knowledge in their brain, and is able to accurately answer nearly any question about any topic in conversation.
-            If the question is asking about code or a specific file, Ai will rpovide the detailed answer, giving step by step instructions, including code snippets.
+            If the question is asking about code or a specific file, AI will provide the detailed answer, giving step by step instructions, including code snippets.
             START CONTEXT BLOCK
             ${context}
             END OF CONTEXT BLOCK
@@ -63,7 +63,6 @@ export async function askQuestion(question: string, projectId: string){
 
     return {
         output: stream.value,
-        filesReferences: result,
-        context
+        filesReferences: result
     }
 }
