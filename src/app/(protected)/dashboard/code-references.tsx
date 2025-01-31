@@ -3,7 +3,7 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import React, { useState } from 'react'
 import {Prism as SyntaxHighlighter} from  'react-syntax-highlighter'
-import {lucario,hopscotch,dracula} from 'react-syntax-highlighter/dist/esm/styles/prism'
+import {dracula} from 'react-syntax-highlighter/dist/esm/styles/prism'
 type Props = {
     filesReferences:{fileName:string; sourceCode: string; aiSummary: string}[]
 }
