@@ -56,7 +56,7 @@ const MeetingsPage = () => {
                                         toast.success("Meeting deleted sucessfully")
                                         refetch()
                                     }
-                                })} >
+                                })} className='ml-3'>
                                     Delete Meeting
                                 </Button>
                         </Link>
