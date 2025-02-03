@@ -1,10 +1,11 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { createCheckoutSession } from '@/lib/razorpay'
 import { api } from '@/trpc/react'
-import { Info } from 'lucide-react'
+import { CreditCard, Info } from 'lucide-react'
 import React from 'react'
 
 const BillingPage = () => {
@@ -35,6 +36,28 @@ const BillingPage = () => {
             }}>
                 Buy {creditsToBuyAmount} credits for ${price}
             </Button>
+            <div className="h-4"></div>
+            <h1 className='text-xl font-semibold'>Transaction History</h1>
+            <div className="space-y-2">
+            {user?.transactions.map((transaction, index) => (
+                 <Card key={index} className="p-4 mb-2 hover:bg-slate-50 transition-colors">
+                 <div className="flex items-center justify-between">
+                   <div className="flex items-center gap-4">
+                     <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
+                       <CreditCard className="w-5 h-5 text-green-500" />
+                     </div>
+                     <div>
+                       <h3 className="font-medium text-gray-900">Credits Added</h3>
+                       <p className="text-sm text-gray-500">{transaction.createdAt.toLocaleDateString()}</p>
+                     </div>
+                   </div>
+                   <span className="text-green-500 font-medium">
+                     +{transaction.credits} credits
+                   </span>
+                 </div>
+               </Card>
+        ))}
+      </div>
     </div>
   )
 }
