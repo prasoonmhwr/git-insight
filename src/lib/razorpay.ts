@@ -2,39 +2,40 @@
 
 import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
-// import Stripe from 'stripe'
+import Razorpay from 'razorpay'
 
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!,{
-//     apiVersion: `2024-10-28.acacia`
-// })
-export async function createCheckoutSession(credits: number){
-    const {userId} = await auth()
-    if(!userId){
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID!,
+    key_secret: process.env.RAZORPAY_KEY_SECRET!
+})
+
+export async function createCheckoutSession(credits: number) {
+    const { userId } = await auth()
+    if (!userId) {
         throw new Error('Unauthorized')
     }
 
-    // const session = await stripe.checkout.sessions.create({
-    //     payment_method_types: ['card'],
-    //     line_items:[{
-    //         price_data:{
-    //             currency: "usd",
-    //             product_data:{
-    //                 name: `${credits} GitInsight Credits`
-    //             },
-    //             unit_amount: Math.round((credits/50)* 100)
-    //         }, 
-    //         quantity : 1
-    //     }],
-    //     customer_creation: 'always',
-    //     mode: 'payment',
-    //     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/create`,
-    //     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing`,
-    //     client_reference_id: userId.toString(),
-    //     metadata:{
-    //         credits
-    //     }
+    const amount = Math.round((credits / 50) * 100 * 100) // Convert to paisa (Indian currency smallest unit)
 
-    // })
-const session = {url:''}
-    return redirect(session.url!)
+    const options = {
+        amount: amount, 
+        currency: "INR",
+        receipt: `credits_${userId}`,
+        notes: {
+            userId: userId,
+            credits: credits,
+            successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/create`,
+            cancelUrl: `${process.env.NEXT_PUBLIC_APP_URL}/billing`
+        }
+    }
+
+    try {
+        const order = await razorpay.orders.create(options)
+
+        // Redirect to Razorpay checkout page
+        const checkoutUrl = `${process.env.NEXT_PUBLIC_APP_URL}/razorpay-checkout?orderId=${order.id}`
+        return redirect(checkoutUrl)
+    } catch (error) {
+        throw new Error('Failed to create Razorpay order')
+    }
 }

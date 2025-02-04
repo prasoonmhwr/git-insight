@@ -1,9 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import useProject from '@/hooks/use-project'
 import useRefetch from '@/hooks/use-refetch'
 import { api } from '@/trpc/react'
 import { Info } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -18,7 +20,8 @@ const CreatePage = () => {
     const createProject = api.project.createProject.useMutation()
     const checkCredits = api.project.checkCredits.useMutation()
     const refetch = useRefetch()
-    
+    const router = useRouter()
+    const {setProjectId } = useProject()
     function onSubmit(data: FormInput) {
         if(!!checkCredits.data){
             createProject.mutate({
@@ -26,10 +29,12 @@ const CreatePage = () => {
                 name: data.projectName,
                 githubToken: data.githubToken
             }, {
-                onSuccess: () => {
+                onSuccess: (project) => {
                     toast.success('Project created sucessfully')
                     refetch()
                     reset()
+                    setProjectId(project.id)
+                    router.push('/dashboard')
                 },
                 onError: () => {
                     toast.error("Failed to create project")
@@ -43,7 +48,7 @@ const CreatePage = () => {
         }
         
     }
-    const hasEnoughCredits = checkCredits?.data?.userCredits ? checkCredits.data.fileCount <= checkCredits.data.userCredits : false;
+    const hasEnoughCredits = checkCredits?.data?.userCredits ? checkCredits.data.fileCount <= checkCredits.data.userCredits : true;
     return (
         <div className='flex items-center gap-12 h-full justify-center'>
             <img src="/create_project.svg" className='h-56 w-auto' />
@@ -88,9 +93,10 @@ const CreatePage = () => {
                             </>
                         )}
                         <div className="h-4"></div>
-                        <Button type='submit' disabled={createProject.isPending || checkCredits.isPending || !hasEnoughCredits}>
+                        
+                        {createProject.isPending ? <div className='loader'></div>:<Button type='submit' disabled={createProject.isPending || checkCredits.isPending || !hasEnoughCredits}>
                             {!!checkCredits.data ? 'Create Project' : 'Check Credits'}
-                        </Button>
+                        </Button>}
                     </form>
                 </div>
             </div>
