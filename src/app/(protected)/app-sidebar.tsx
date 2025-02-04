@@ -32,24 +32,13 @@ const items = [
     }
 ]
 
-// const projects = [
-//     {
-//         name: "Project 1"
-//     },
-//     {
-//         name: "Project 2"
-//     },
-//     {
-//         name: "Project 3"
-//     }
-// ]
 export function AppSidebar() {
     const pathname = usePathname()
     const { open } = useSidebar()
     const { projects, projectId,setProjectId } = useProject()
     return (
-        <Sidebar collapsible="icon" variant="floating">
-            <SidebarHeader>
+        <Sidebar className="bg-slate-950" collapsible="icon" variant="floating">
+            <SidebarHeader className="bg-slate-900">
                 <div className="flex items-center gap-2">
                     <Image src="/logo.png" alt="Logo" width={40} height={40} />
                     {open && (<h1 className="text-xl font-bold text-primary/80">
@@ -57,9 +46,9 @@ export function AppSidebar() {
                     </h1>)}
                 </div>
             </SidebarHeader>
-            <SidebarContent>
+            <SidebarContent className="bg-slate-900">
                 <SidebarGroup>
-                    <SidebarGroupLabel>
+                    <SidebarGroupLabel className="text-slate-400">
                         Application
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -68,7 +57,7 @@ export function AppSidebar() {
                                 return (<SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <Link href={item.url} className={cn({
-                                            '!bg-primary !text-slate-500': pathname == item.url
+                                            '!bg-slate-200 !text-slate-500': pathname == item.url
                                         })}>
                                             <item.icon />
                                             <span>{item.title}</span>
@@ -80,7 +69,7 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
                 <SidebarGroup>
-                    <SidebarGroupLabel>
+                    <SidebarGroupLabel className="text-slate-400">
                         Your Projects
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -92,9 +81,9 @@ export function AppSidebar() {
                                             <div onClick={()=>{
                                                 setProjectId(project.id)
                                             }}>
-                                                <div className={cn('rounded-sm border size-6 flex items-center justify-center text-sm text-primary',
+                                                <div className={cn('rounded-sm border size-6 flex items-center justify-center text-sm bg-slate-950 text-slate-200',
                                                     {
-                                                        'bg-primary text-slate-500': project.id === projectId
+                                                        'bg-slate-200 text-slate-500': project.id === projectId
                                                     }
                                                 )}>
                                                     {project.name[0]}
@@ -106,9 +95,9 @@ export function AppSidebar() {
                                 )
                             })}
                             <div className="h-2"></div>
-                            <SidebarMenuItem>
+                            <SidebarMenuItem className="text-center">
                                 <Link href={'/create'}>
-                                    <Button size='sm' variant={'outline'} className="w-fit">
+                                    <Button size='sm' variant={'outline'} className="w-full bg-slate-500">
                                         <Plus />
                                         {open && ('Create Project')}
                                     </Button>

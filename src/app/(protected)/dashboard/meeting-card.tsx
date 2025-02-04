@@ -55,7 +55,7 @@ const MeetingCard = () => {
         }
     })
   return (
-    <Card className='col-span-2 flex flex-col items-center justify-center p-10' {...getRootProps()}>
+    <Card className='col-span-2 flex flex-col items-center justify-center p-10 bg-slate-950 ring-1 ring-inset ring-slate-700' {...getRootProps()}>
         {!isUploading && (
             <>
             <Presentation className='h-10 w10 animate-bounce' />
@@ -68,7 +68,7 @@ const MeetingCard = () => {
                 Powered by AI.
             </p>
             <div className='mt-6'>
-                <Button disabled={isUploading}>
+                <Button disabled={isUploading} className='bg-slate-200'>
                     <Upload className='-ml-0.5 mr-1.5 h-5 w-5' aria-hidden="true" />
                     Upload Meeting
                     <input className='hidden' {...getInputProps()} />

@@ -16,7 +16,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className='flex items-center justify-between flex-wrap gap-y-4'>
-        <div className='w-fit rounded-md bg-primary px-4 py-3'>
+        <div className='w-fit rounded-md bg-slate-200 px-4 py-3'>
           <div className="flex items-center">
             <Github className='size-5 text-slate-900' />
             <div className='ml-2'>

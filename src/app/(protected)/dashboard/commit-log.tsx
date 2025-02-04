@@ -22,7 +22,7 @@ const CommitLog = () => {
             </div>
             <>
               <img src={commit.commitAuthorAvatar} alt='commit avatar' className='relative mt-4 size-8 flex-none rounded-full bg-slate-900' />
-              <div className="flex-auto rounded-md bg-zinc-950 p-3 ring-1 ring-inset ring-zinc-700">
+              <div className="flex-auto rounded-md bg-slate-950 p-3 ring-1 ring-inset ring-slate-700">
                 <div className="flex justify-between gap-x-4">
                   <Link target='_blank' href={`${project?.repoUrl}/commit/${commit.commitHash}`} className='py-0.5 text-xs leading-5 text-slate-500'>
                     <span className='font-medium text-slate-300'>
@@ -37,7 +37,7 @@ const CommitLog = () => {
                 <span className='font-semibold'>
                   {commit.commitMessage}
                 </span>
-                <pre className='mt-2 whitespace-pre-wrap text-sm leading-6 text-gray-500'>
+                <pre className='mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-500'>
                   {commit.aiSummary}
                 </pre>
               </div>
