@@ -15,11 +15,11 @@ export async function createCheckoutSession(credits: number) {
         throw new Error('Unauthorized')
     }
 
-    const amount = Math.round((credits / 50) * 100 * 100) // Convert to paisa (Indian currency smallest unit)
+    const amount = Math.round((credits / 50) * 100)
 
     const options = {
         amount: amount, 
-        currency: "INR",
+        currency: "USD",
         receipt: `credits_${userId}`,
         notes: {
             userId: userId,
@@ -28,14 +28,16 @@ export async function createCheckoutSession(credits: number) {
             cancelUrl: `${process.env.NEXT_PUBLIC_APP_URL}/billing`
         }
     }
-
+   
     try {
         const order = await razorpay.orders.create(options)
-
+        console.log("order",order)
         // Redirect to Razorpay checkout page
-        const checkoutUrl = `${process.env.NEXT_PUBLIC_APP_URL}/razorpay-checkout?orderId=${order.id}`
-        return redirect(checkoutUrl)
+        return order
+        // const checkoutUrl = `${process.env.NEXT_PUBLIC_APP_URL}/razorpay-checkout?orderId=${order.id}`
+        // return redirect(checkoutUrl)
     } catch (error) {
+        console.log(error)
         throw new Error('Failed to create Razorpay order')
     }
 }

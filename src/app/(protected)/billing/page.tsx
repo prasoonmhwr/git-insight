@@ -31,8 +31,37 @@ const BillingPage = () => {
         <div className="h-4"></div>
         <Slider defaultValue={[100]} max={1000} min={10} step={10} onValueChange={value => setCreditsToBuy(value)} value={creditsToBuy}/>
             <div className="h-4"></div>
-            <Button onClick={()=>{
-                createCheckoutSession(creditsToBuyAmount)
+            <Button onClick={async()=>{
+                const order = await createCheckoutSession(creditsToBuyAmount)
+                const options1 = {
+                  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Use public key here
+                  amount: order.amount,
+                  currency: order.currency,
+                  name: 'Git Insight',
+                  description: 'Buying GitIsight Credits',
+                  order_id: order.id,
+                  handler: (response: any) => {
+                    console.log(response);
+                    alert('Payment Successful');
+                  },
+                  prefill: {
+                    name: 'Customer Name',
+                    email: 'customer@example.com',
+                    contact: '9999999999',
+                  },
+                  notes: {
+                      userId: order.notes?.userId,
+                      credits: order.notes?.credits,
+                      successUrl: order.notes?.successUrl,
+                      cancelUrl: order.notes?.cancelUrl
+                  },
+                  theme: {
+                    color: '#3399cc',
+                  },
+                };
+          
+                const razorpay1 = new (window as any).Razorpay(options1);
+                razorpay1.open();
             }}>
                 Buy {creditsToBuyAmount} credits for ${price}
             </Button>
