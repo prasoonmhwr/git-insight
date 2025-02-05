@@ -14,7 +14,17 @@ const SidebarLayout = ({children}: Props) => {
             <div className='flex items-center gap-2 border-side-border bg-slate-900 border shadow rounded-md p-2 px-4'>
                 {/* <SearchBar /> */}
                 <div className="ml-auto"></div>
-                <UserButton />
+                <UserButton 
+                appearance={{
+                    elements: {
+                        userButtonPopoverMain: "bg-slate-800",
+                        userPreview: "text-slate-400",
+                        userButtonPopoverActionButton__manageAccount: "text-slate-400",
+                        userButtonPopoverActionButton__signOut: "text-slate-400",
+                        userButtonPopoverFooter: "bg-gradient-to-b from-slate-700 to-slate-900"
+                    }}
+                }
+                />
             </div>
             <div className="h-4"></div>
             {/* main content */}

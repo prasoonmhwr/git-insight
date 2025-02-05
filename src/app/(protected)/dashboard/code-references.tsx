@@ -12,7 +12,7 @@ const CodeReferences = ({filesReferences}: Props) => {
     const [tab,setTab] = useState(filesReferences[0]?.fileName)
     if(filesReferences.length === 0) return null
   return (
-    <div className='max-w-[70vw]'>
+    <div className='w-full'>
         <Tabs value={tab} onValueChange={setTab}>
             <div className="h-4"></div>
             <div className='overflow-auto flex gap-2 bg-slate-700 p-1 rounded-md'>
