@@ -9,16 +9,36 @@ const bodyparser = z.object({
     projectId: z.string(),
     meetingId: z.string()
 })
-export const maxDuration = 300
+
+export const maxDuration = 60 
+
 export async function POST(req: NextRequest){
     const {userId} = await auth()
     if(!userId){
         return NextResponse.json({error: "Unauthorized"}, {status: 401})
     }
-    try{
+    
+    try {
         const body = await req.json()
         const { meetingUrl, projectId, meetingId} = bodyparser.parse(body)
+        
+        processAndUpdateMeeting(meetingUrl, meetingId)
+        
+        return NextResponse.json({
+            message: "Meeting processing started", 
+            status: "PROCESSING"
+        }, {status: 200})
+    }
+    catch (error){
+        console.error(error)
+        return NextResponse.json({error: "Internal Server Error"},{status: 500})
+    }
+}
+
+async function processAndUpdateMeeting(meetingUrl: string, meetingId: string) {
+    try {
         const {summaries} = await processMeeting(meetingUrl)
+        
         await db.issue.createMany({
             data: summaries.map(summary => ({
                 start: summary.start,
@@ -29,15 +49,16 @@ export async function POST(req: NextRequest){
                 meetingId
             }))
         })
+
         await db.meeting.update({
-            where: {id: meetingId},data:{
+            where: {id: meetingId},
+            data: {
                 status: "COMPLETED",
-                name: summaries[0]?.headline
+                name: summaries[0]?.headline || "Meeting Processed"
             }
         })
-    }
-    catch (error){
-        console.error(error)
-        return NextResponse.json({error: "internal Server Error"},{status: 500})
+    } catch (error) {
+        console.error("Meeting processing failed:", error)
+        
     }
 }
