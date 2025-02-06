@@ -69,7 +69,7 @@ const FAQ = () => {
                 <div className="mt-12 text-center">
                     <p className="text-slate-400">
                         Still have questions? {" "}
-                        <a href="mailto:support@gitinsight.com?subject=GitInsight%20Support%20Query" className="text-blue-400 hover:text-blue-300">
+                        <a href="gitinsightsuppport@gmail.com?subject=GitInsight%20Support%20Query" className="text-blue-400 hover:text-blue-300">
                             Contact our support team
                         </a>
                     </p>

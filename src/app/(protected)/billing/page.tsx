@@ -45,9 +45,8 @@ const BillingPage = () => {
                     alert('Payment Successful');
                   },
                   prefill: {
-                    name: 'Customer Name',
-                    email: 'customer@example.com',
-                    contact: '9999999999',
+                    name: user?.firstName + ' ' + user?.lastName,
+                    email: user?.emailAddress,
                   },
                   notes: {
                       userId: order.notes?.userId,
