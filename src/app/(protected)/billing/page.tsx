@@ -72,7 +72,7 @@ const BillingPage = () => {
                     <p className='pt-4 text-lg text-slate-200'>No transactions found</p>
                 </div>)}
             {!user?.transactions && [1,2,3,4,5,6,7].map((i) => (<Skeleton key={i} className="h-[82px] mt-2 rounded-xl bg-slate-800" />))}
-            {false && user?.transactions.map((transaction, index) => (
+            {user?.transactions.map((transaction, index) => (
                  <Card key={index} className="p-4 mb-2 hover:bg-slate-600 bg-slate-700 transition-colors">
                  <div className="flex items-center justify-between">
                    <div className="flex items-center gap-4">
