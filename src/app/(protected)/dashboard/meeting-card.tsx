@@ -33,7 +33,6 @@ const MeetingCard = () => {
         onDrop: async acceptedFiles => {
             if(!project) return
             setIsUploading(true)
-            console.log(acceptedFiles)
             const file = acceptedFiles[0]
             if(!file) return
             const downloadURL = await uploadFile(file as File, setProgress) as string

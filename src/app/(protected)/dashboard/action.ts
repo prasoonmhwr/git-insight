@@ -25,7 +25,6 @@ export async function askQuestion(question: string, projectId: string){
     LIMIT 10` as {fileName: string; sourceCode: string; aiSummary:string;}[]
 
     let context = ''
-    console.log('Query results:', JSON.stringify(result, null, 2))
     for (const doc of result){
         context += `source: ${doc.fileName}\ncode content: ${doc.sourceCode}\n summary of file: ${doc.aiSummary}\n\n`
     }

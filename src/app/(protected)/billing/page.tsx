@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Slider } from '@/components/ui/slider'
 import { createCheckoutSession } from '@/lib/razorpay'
 import { api } from '@/trpc/react'
@@ -41,7 +42,6 @@ const BillingPage = () => {
                   description: 'Buying GitIsight Credits',
                   order_id: order.id,
                   handler: (response: any) => {
-                    console.log(response);
                     alert('Payment Successful');
                   },
                   prefill: {
@@ -66,18 +66,23 @@ const BillingPage = () => {
                 Buy {creditsToBuyAmount} credits for ${price}
             </Button>
             <div className="h-4"></div>
-            <h1 className='text-xl font-semibold'>Transaction History</h1>
+            <h1 className='text-xl mb-2 font-semibold'>Transaction History</h1>
             <div className="space-y-2">
-            {user?.transactions.map((transaction, index) => (
-                 <Card key={index} className="p-4 mb-2 hover:bg-slate-50 transition-colors">
+              {user?.transactions && user?.transactions.length == 0  && (<div className=' flex flex-col items-center justify-center m-auto min-h-[500px]'>
+                    <img src="/transaction.svg" className='h-36 w-auto brightness-[85%]' />
+                    <p className='pt-4 text-lg text-slate-200'>No transactions found</p>
+                </div>)}
+            {!user?.transactions && [1,2,3,4,5,6,7].map((i) => (<Skeleton key={i} className="h-[82px] mt-2 rounded-xl bg-slate-800" />))}
+            {false && user?.transactions.map((transaction, index) => (
+                 <Card key={index} className="p-4 mb-2 hover:bg-slate-600 bg-slate-700 transition-colors">
                  <div className="flex items-center justify-between">
                    <div className="flex items-center gap-4">
                      <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
                        <CreditCard className="w-5 h-5 text-green-500" />
                      </div>
                      <div>
-                       <h3 className="font-medium text-gray-900">Credits Added</h3>
-                       <p className="text-sm text-gray-500">{transaction.createdAt.toLocaleDateString()}</p>
+                       <h3 className="font-medium text-slate-300">Credits Added</h3>
+                       <p className="text-sm text-stone-400">{transaction.createdAt.toLocaleDateString()}</p>
                      </div>
                    </div>
                    <span className="text-green-500 font-medium">

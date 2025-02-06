@@ -31,11 +31,7 @@ export async function createCheckoutSession(credits: number) {
    
     try {
         const order = await razorpay.orders.create(options)
-        console.log("order",order)
-        // Redirect to Razorpay checkout page
         return order
-        // const checkoutUrl = `${process.env.NEXT_PUBLIC_APP_URL}/razorpay-checkout?orderId=${order.id}`
-        // return redirect(checkoutUrl)
     } catch (error) {
         console.log(error)
         throw new Error('Failed to create Razorpay order')
