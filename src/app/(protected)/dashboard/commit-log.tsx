@@ -1,4 +1,5 @@
 'use client'
+import { Skeleton } from '@/components/ui/skeleton'
 import useProject from '@/hooks/use-project'
 import { cn } from '@/lib/utils'
 import { api } from '@/trpc/react'
@@ -8,9 +9,10 @@ import React from 'react'
 
 const CommitLog = () => {
   const { projectId, project } = useProject()
-  const { data: commits } = api.project.getCommits.useQuery({ projectId })
+  const { data: commits, isLoading } = api.project.getCommits.useQuery({ projectId })
   return (
     <>
+    {isLoading && [1, 2, 3, 4, 5].map((i) => (<Skeleton key={i} className="h-[120px] mt-2 rounded-xl bg-slate-800" />))}
       <ul className='space-y-6'>
         {commits?.map((commit, commitIdx) => {
           return <li key={commit.id} className='relative flex gap-x-4'>
