@@ -3,16 +3,18 @@ import { UserButton } from '@clerk/nextjs'
 import React from 'react'
 import { AppSidebar } from './app-sidebar'
 import Script from 'next/script'
-
+import { Analytics } from "@vercel/analytics/react"
 type Props = {
     children: React.ReactNode
 }
 const SidebarLayout = ({children}: Props) => {
   return (
-    <><Script
+    <>
+    <Analytics /><Script
     id="razorpay-checkout-js"
     src="https://checkout.razorpay.com/v1/checkout.js"
    />
+   
     <SidebarProvider>
         <AppSidebar />
         <main className='w-full m-2 bg-slate-950'>

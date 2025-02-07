@@ -28,7 +28,7 @@ const MeetingsPage = () => {
                     <p className='pt-4 text-lg text-slate-200'>No meetinds found</p>
                 </div>
             }
-            {isLoading && [1,2,3,4,5,6,7].map((i) => (<Skeleton key={i} className="h-[82px] mt-2 rounded-xl bg-slate-800" />))}
+            {isLoading && [1, 2, 3, 4, 5, 6, 7].map((i) => (<Skeleton key={i} className="h-[82px] mt-2 rounded-xl bg-slate-800" />))}
             <ul className='divide-y divide-gray-200 mt-10'>
                 {meetings?.map(meeting => (
                     <li key={meeting.id} className='flex items-center justify-between py-5 gap-x-6'>
@@ -57,15 +57,16 @@ const MeetingsPage = () => {
                                 <Button size='sm' variant='outline'>
                                     View Meeting
                                 </Button>
-                                <Button disabled={deleteMeeting.isPending} size='sm' variant='destructive' onClick={() => deleteMeeting.mutate({ meetingId: meeting.id }, {
-                                    onSuccess: () => {
-                                        toast.success("Meeting deleted sucessfully")
-                                        refetch()
-                                    }
-                                })} className='ml-3'>
-                                    Delete Meeting
-                                </Button>
+
                             </Link>
+                            <Button disabled={deleteMeeting.isPending} size='sm' variant='destructive' onClick={() => deleteMeeting.mutate({ meetingId: meeting.id }, {
+                                onSuccess: () => {
+                                    toast.success("Meeting deleted sucessfully")
+                                    refetch()
+                                }
+                            })} className='ml-3'>
+                                Delete Meeting
+                            </Button>
                         </div>
                     </li>
                 ))}

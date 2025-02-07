@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_DOMAIN,
   projectId: process.env.FIREBASE_PROJECTID,
-  storageBucket: 'gitinsight-4e13a.firebasestorage.app',
+  storageBucket: 'git-insight-c6e5f.firebasestorage.app',
   messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
   appId: process.env.FIREBASE_APPID
 };
