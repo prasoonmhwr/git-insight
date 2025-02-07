@@ -6,12 +6,12 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/st
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAtx2OV1to7ba5VwghivNWxWC1Z8j-NIpA",
-  authDomain: "gitinsight-4e13a.firebaseapp.com",
-  projectId: "gitinsight-4e13a",
-  storageBucket: "gitinsight-4e13a.firebasestorage.app",
-  messagingSenderId: "646056224278",
-  appId: "1:646056224278:web:42eaea9729681d59163737"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECTID,
+  storageBucket: 'gitinsight-4e13a.firebasestorage.app',
+  messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APPID
 };
 
 // Initialize Firebase
