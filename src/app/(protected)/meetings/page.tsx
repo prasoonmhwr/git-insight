@@ -52,7 +52,8 @@ const MeetingsPage = () => {
                                 <p className='truncate'>{meeting.issues.length} issues</p>
                             </div>
                         </div>
-                        <div className='flex items-center flex-none gap-x-4'>
+                        {meeting.status === 'COMPLETED' && 
+                        (<div className='flex items-center flex-none gap-x-4'>
                             <Link href={`/meetings/${meeting.id}`}>
                                 <Button size='sm' variant='outline'>
                                     View Meeting
@@ -67,7 +68,7 @@ const MeetingsPage = () => {
                             })} className='ml-3'>
                                 Delete Meeting
                             </Button>
-                        </div>
+                        </div>)}
                     </li>
                 ))}
             </ul>
