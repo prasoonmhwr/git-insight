@@ -38,7 +38,7 @@ export async function POST(req: NextRequest){
 async function processAndUpdateMeeting(meetingUrl: string, meetingId: string) {
     try {
         const {summaries} = await processMeeting(meetingUrl)
-        
+        console.log("Summaries",summaries)
         await db.issue.createMany({
             data: summaries.map(summary => ({
                 start: summary.start,
