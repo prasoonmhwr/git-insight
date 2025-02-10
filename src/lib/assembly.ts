@@ -3,17 +3,17 @@ import { api } from '@/trpc/server'
 import { MeetingStatus } from '@prisma/client'
 import { AssemblyAI } from 'assemblyai'
 import { NextResponse } from 'next/server'
-
+import axios from 'axios'
 const client = new AssemblyAI({ apiKey: process.env.ASSEMBLYAI_API_KEY! })
 
 interface TranscriptionRequest {
     meetingUrl: string
   }
   
-  interface TranscriptionResponse {
-    transcriptionId: string
-    status: MeetingStatus
-  }
+  // interface TranscriptionResponse {
+  //   transcriptionId: string
+  //   status: MeetingStatus
+  // }
   
   interface ChapterSummary {
     start: string
@@ -29,7 +29,22 @@ interface TranscriptionRequest {
     summaries: ChapterSummary[]
     fullTranscript: string
   }
-  
+
+
+const ASSEMBLY_API_URL = 'https://api.assemblyai.com/v2'
+
+interface TranscriptResponse {
+  transcriptionId: string
+  status: MeetingStatus
+  chapters?: Array<{
+    start: number
+    end: number
+    gist: string
+    headline: string
+    summary: string
+  }>
+  text?: string
+}
 function msToTime(ms: number) {
     const seconds = ms / 1000
     const minutes = Math.floor(seconds / 60)
@@ -37,27 +52,64 @@ function msToTime(ms: number) {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
 }
 
-export const processMeeting = async (meetingUrl: string) : Promise<TranscriptionResponse> => {
-    try {
-      console.log("Applying Transcription Started")
-      console.log(client)
-      console.log(meetingUrl)
-      const transcript = await client.transcripts.transcribe({
-        audio: meetingUrl,
+export const processMeeting = async (meetingUrl: string) => {
+  try {
+    console.log("Starting transcription process...")
+    
+    // Headers for all requests
+    const headers = {
+      'Authorization': process.env.ASSEMBLYAI_API_KEY!,
+      'Content-Type': 'application/json'
+    }
+
+    // Step 1: Create the transcript
+    console.log("Creating transcript...")
+    const createResponse = await axios.post(
+      `${ASSEMBLY_API_URL}/transcript`, 
+      {
+        audio_url: meetingUrl,
         auto_chapters: true,
         webhook_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhook/assembly`,
         webhook_auth_header_name: 'X-Webhook-Secret',
-        webhook_auth_header_value: process.env.ASSEMBLYAI_WEBHOOK_SECRET,
-      })
-      console.log("Transcription Started", transcript)
-      return {
-        transcriptionId: transcript.id,
-        status: 'PROCESSING'
-      }
-    } catch (error) {
-      console.error('Error starting transcription:', error)
-      throw error
+        webhook_auth_header_value: process.env.WEBHOOK_SECRET
+      },
+      { headers }
+    )
+
+    const transcriptId = createResponse.data.id
+    console.log("Transcript created with ID:", transcriptId)
+
+    // Step 2: Start polling for status (with a reasonable timeout)
+    console.log("Checking initial status...")
+    const startTime = Date.now()
+    const TIMEOUT = 10000 // 10 second timeout for initial check
+
+    while (Date.now() - startTime < TIMEOUT) {
+      const pollingResponse = await axios.get<TranscriptResponse>(
+        `${ASSEMBLY_API_URL}/transcript/${transcriptId}`,
+        { headers }
+      )
+      
+      const status = pollingResponse.data.status
+      console.log("Current status:", status)
+      
+      
+
+      // Wait a second before polling again
+      await new Promise(resolve => setTimeout(resolve, 1000))
     }
+
+    // If we reach here, we've hit the timeout but the process is still running
+    console.log("Initial check complete - process continuing in background")
+    return {
+      transcriptionId: transcriptId,
+      status: 'PROCESSING'
+    }
+
+  } catch (error) {
+    console.error("Transcription error:", error)
+    throw error
+  }
 }
 
 export async function handleWebhook(req: Request) {
