@@ -47,7 +47,7 @@ export const processMeeting = async (meetingUrl: string) : Promise<Transcription
         webhook_auth_header_name: 'X-Webhook-Secret',
         webhook_auth_header_value: process.env.ASSEMBLYAI_WEBHOOK_SECRET,
       })
-  
+      console.log("Transcription Started", transcript)
       return {
         transcriptionId: transcript.id,
         status: 'PROCESSING'
