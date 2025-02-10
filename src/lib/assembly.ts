@@ -40,6 +40,7 @@ function msToTime(ms: number) {
 export const processMeeting = async (meetingUrl: string) : Promise<TranscriptionResponse> => {
     try {
       console.log("Applying Transcription Started")
+      console.log(client)
       const transcript = await client.transcripts.transcribe({
         audio: meetingUrl,
         auto_chapters: true,
