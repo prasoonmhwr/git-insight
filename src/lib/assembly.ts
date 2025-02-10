@@ -41,6 +41,7 @@ export const processMeeting = async (meetingUrl: string) : Promise<Transcription
     try {
       console.log("Applying Transcription Started")
       console.log(client)
+      console.log(meetingUrl)
       const transcript = await client.transcripts.transcribe({
         audio: meetingUrl,
         auto_chapters: true,
