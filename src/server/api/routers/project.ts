@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { pollCommits } from "@/lib/github";
 import { checkCredits, indexGithubRepo } from "@/lib/github-loader";
+import { enqueueJob } from "@/lib/backgroundJob";
 
 export const projectRouter = createTRPCRouter({
     createProject: protectedProcedure.input(
@@ -20,19 +21,46 @@ export const projectRouter = createTRPCRouter({
         if(currentCredits < fileCount){
             throw new Error('Insufficient credits')
         }
+        // const project = await ctx.db.project.create({
+        //     data: {
+        //         repoUrl: input.repoUrl,
+        //         name: input.name,
+        //         userToProjects:{
+        //             create:{
+        //                 userId: ctx.user.userId!,
+        //             }
+        //         }
+        //     }
+        // })
+        // await indexGithubRepo(project.id, input.repoUrl, input.githubToken)
+        // await pollCommits(project.id)
         const project = await ctx.db.project.create({
             data: {
-                repoUrl: input.repoUrl,
-                name: input.name,
-                userToProjects:{
-                    create:{
-                        userId: ctx.user.userId!,
-                    }
-                }
+              repoUrl: input.repoUrl,
+              name: input.name,
+              status: 'PENDING_INDEX', // Add this field to your schema
+              userToProjects: {
+                create: { userId: ctx.user.userId! }
+              }
             }
-        })
-        await indexGithubRepo(project.id, input.repoUrl, input.githubToken)
-        await pollCommits(project.id)
+          })
+      
+          // Enqueue background jobs
+          enqueueJob('indexRepo', { 
+            projectId: project.id, 
+            repoUrl: input.repoUrl, 
+            githubToken: input.githubToken 
+          })
+      
+          enqueueJob('pollCommits', { 
+            projectId: project.id 
+          })
+      
+          // Deduct credits
+          await ctx.db.user.update({
+            where: { id: ctx.user.userId! }, 
+            data: { credits: { decrement: fileCount } }
+          })
         await ctx.db.user.update({where: {id: ctx.user.userId!}, data: {credits: {decrement: fileCount}}})
         return project
     }),

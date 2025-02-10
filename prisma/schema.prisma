@@ -39,13 +39,20 @@ model Project {
     repoUrl   String
 
     deletedAt DateTime?
-
+    status  ProjectStatus
     userToProjects UserToProject[]
     commit    Commit[]
     sourceCodeEmbeddings SourceCodeEmbedding[]
 
     savedQuestions Question[]
     meetings    Meeting[]
+}
+
+enum ProjectStatus{
+    PENDING_INDEX
+    INDEXED
+    COMMITS_PROCESSED
+    FAILED
 }
 
 model UserToProject{
