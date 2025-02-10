@@ -37,26 +37,18 @@ export async function POST(req: NextRequest){
 
 async function processAndUpdateMeeting(meetingUrl: string, meetingId: string) {
     try {
-        const {summaries} = await processMeeting(meetingUrl)
-        console.log("Summaries",summaries)
-        await db.issue.createMany({
-            data: summaries.map(summary => ({
-                start: summary.start,
-                end: summary.end,
-                gist: summary.gist,
-                headline: summary.headline,
-                summary: summary.summary,
-                meetingId
-            }))
-        })
+        const {transcriptionId, status} = await processMeeting(meetingUrl)
 
         await db.meeting.update({
-            where: {id: meetingId},
-            data: {
-                status: "COMPLETED",
-                name: summaries[0]?.headline || "Meeting Processed"
+            where:{
+                id: meetingId
+            },
+            data:{
+                transcriptionId: transcriptionId,
+                status: status
             }
         })
+       
     } catch (error) {
         console.error("Meeting processing failed:", error)
         
