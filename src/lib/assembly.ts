@@ -45,7 +45,6 @@ export const processMeeting = async (meetingUrl: string) : Promise<Transcription
         audio: meetingUrl,
         auto_chapters: true,
         webhook_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhook/assembly`,
-        // Optional: Add a webhook authentication token
         webhook_auth_header_name: 'X-Webhook-Secret',
         webhook_auth_header_value: process.env.ASSEMBLYAI_WEBHOOK_SECRET,
       })
