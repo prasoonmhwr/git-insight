@@ -25,7 +25,7 @@ const MeetingsPage = () => {
             {meetings && meetings.length === 0 &&
                 <div className=' flex flex-col items-center justify-center m-auto min-h-[800px]'>
                     <img src="/meeting.svg" className='h-36 w-auto brightness-[85%]' />
-                    <p className='pt-4 text-lg text-slate-200'>No meetinds found</p>
+                    <p className='pt-4 text-lg text-slate-200'>No meetings found</p>
                 </div>
             }
             {isLoading && [1, 2, 3, 4, 5, 6, 7].map((i) => (<Skeleton key={i} className="h-[82px] mt-2 rounded-xl bg-slate-800" />))}

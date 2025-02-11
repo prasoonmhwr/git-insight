@@ -2,7 +2,8 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { pollCommits } from "@/lib/github";
 import { checkCredits, indexGithubRepo } from "@/lib/github-loader";
-import { enqueueJob } from "@/lib/backgroundJob";
+import { enqueueJob } from "@/lib/queue";
+
 
 export const projectRouter = createTRPCRouter({
     createProject: protectedProcedure.input(
@@ -52,15 +53,7 @@ export const projectRouter = createTRPCRouter({
             githubToken: input.githubToken 
           })
       
-          enqueueJob('pollCommits', { 
-            projectId: project.id 
-          })
-      
-          // Deduct credits
-          await ctx.db.user.update({
-            where: { id: ctx.user.userId! }, 
-            data: { credits: { decrement: fileCount } }
-          })
+          
         await ctx.db.user.update({where: {id: ctx.user.userId!}, data: {credits: {decrement: fileCount}}})
         return project
     }),
