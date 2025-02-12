@@ -2,7 +2,7 @@ import { db } from '@/server/db'
 import { MeetingStatus } from '@prisma/client'
 import { AssemblyAI } from 'assemblyai'
 import { NextResponse } from 'next/server'
-
+console.log("aikey",process.env.ASSEMBLYAI_API_KEY!)
 const client = new AssemblyAI({ apiKey: process.env.ASSEMBLYAI_API_KEY! })
 
 interface TranscriptionRequest {
@@ -41,13 +41,13 @@ export const processMeeting = async (meetingUrl: string) : Promise<Transcription
       console.log("Applying Transcription Started")
       console.log(client)
       console.log(meetingUrl)
-      console.log(client.transcripts.transcribe({
+      console.log("Params",{
         audio: meetingUrl,
         auto_chapters: true,
         webhook_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhook/assembly`,
         webhook_auth_header_name: 'X-Webhook-Secret',
         webhook_auth_header_value: process.env.ASSEMBLYAI_WEBHOOK_SECRET,
-      }))
+      })
       const transcript = await client.transcripts.transcribe({
         audio: meetingUrl,
         auto_chapters: true,
