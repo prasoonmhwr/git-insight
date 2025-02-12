@@ -49,7 +49,7 @@ export const processMeeting = async (meetingUrl: string) : Promise<Transcription
         webhook_auth_header_value: process.env.ASSEMBLYAI_WEBHOOK_SECRET,
       }))
       const transcript = await client.transcripts.transcribe({
-        audio: meetingUrl,
+        audio: 'https://assembly.ai/sports_injuries.mp3',
         auto_chapters: true,
         webhook_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhook/assembly`,
         webhook_auth_header_name: 'X-Webhook-Secret',
