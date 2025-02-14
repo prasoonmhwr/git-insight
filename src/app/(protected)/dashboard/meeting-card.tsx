@@ -54,7 +54,12 @@ const MeetingCard = () => {
         }
     })
   return (
+    <>
     <Card className='col-span-2 flex flex-col items-center justify-center p-10 bg-slate-950 ring-1 ring-inset ring-slate-700' {...getRootProps()}>
+        <div>Under maintainance</div>
+        <div>Please check back later</div>
+    </Card>
+    {false && <Card className='col-span-2 flex flex-col items-center justify-center p-10 bg-slate-950 ring-1 ring-inset ring-slate-700' {...getRootProps()}>
         {!isUploading && (
             <>
             <Presentation className='h-10 w10 animate-bounce' />
@@ -86,7 +91,8 @@ const MeetingCard = () => {
                 <p className='text-sm text-gray-500 text-center'>Uploading your meeting...</p>
             </div>
         )}
-    </Card>
+    </Card>}
+    </>
   )
 }
 
