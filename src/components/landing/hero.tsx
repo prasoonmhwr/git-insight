@@ -131,7 +131,7 @@ const Hero = () => {
                         <iframe
                             width="100%"
                             height="315"
-                            src="https://youtu.be/qA77EDUKDBw"
+                            src="https://www.youtube.com/embed/qA77EDUKDBw?si=csOnHzqu-SwOtxkX"
                             title="YouTube Video"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
