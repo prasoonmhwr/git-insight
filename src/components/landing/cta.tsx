@@ -17,7 +17,7 @@ const CTA = () => {
                             </p>
                         </div>
                         <div className='min-w-[90%] overflow-hidden shadow-xl shadow-slate-700/50' >
-                            <img src="/product.png" alt='Product Mac' className=' h-150 w-150 sm:h-[500px] sm:w-[850px] max-w-none'/>
+                            <img src="/product.png" alt='Product Mac' className=' h-64 w-96 sm:h-[500px] sm:w-[850px] max-w-none'/>
                         </div>
                     </div>
                 </div>
