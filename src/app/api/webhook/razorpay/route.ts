@@ -1,7 +1,7 @@
 import { db } from "@/server/db";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from 'crypto';
-
+export const runtime = 'edge';
 export async function POST(request: Request) {
     // Parse the raw body
     const body = await request.text();

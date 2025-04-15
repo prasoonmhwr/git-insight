@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { handleWebhook } from "@/lib/assembly"; // Ensure this function is App Router-compatible
-
+export const runtime = 'edge';
 export async function POST(req: Request) {
   console.log("🚀 Assembly Webhook Hit");
   try {

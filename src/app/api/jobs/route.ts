@@ -3,7 +3,7 @@ import { indexGithubRepo } from '@/lib/github-loader'
 import { db } from '@/server/db'
 import { NextResponse } from 'next/server'
 
-
+export const runtime = 'edge';
 export async function POST(
   request: Request,
 ) {

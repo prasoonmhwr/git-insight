@@ -3,7 +3,7 @@ import { db } from "@/server/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-
+export const runtime = 'edge';
 const bodyparser = z.object({
     meetingUrl: z.string(),
     projectId: z.string(),
