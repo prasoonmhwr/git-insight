@@ -3,6 +3,7 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import React, { useState } from 'react'
 import {Prism as SyntaxHighlighter} from  'react-syntax-highlighter'
+import { qtcreatorDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {dracula} from 'react-syntax-highlighter/dist/esm/styles/prism'
 type Props = {
     filesReferences:{fileName:string; sourceCode: string; aiSummary: string}[]
@@ -29,9 +30,11 @@ const CodeReferences = ({filesReferences}: Props) => {
             </div>
             {filesReferences.map(file => (
                 <TabsContent key={file.fileName} value={file.fileName} className='max-h-[40vh] overflow-auto max-w-8xl rounded-md'>
-                    <SyntaxHighlighter style={dracula}>
+                    <div className="w-full overflow-x-auto max-w-full">
+                    <SyntaxHighlighter style={qtcreatorDark} lineProps={{style: {wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}} wrapLongLines={true} wrapLines={true} className='overflow-x-auto '>
                         {file.sourceCode}
                     </SyntaxHighlighter>
+                    </div>
                 </TabsContent>
             ))}
         </Tabs>
