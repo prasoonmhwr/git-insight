@@ -68,9 +68,9 @@ const AskQuestionCard = () => {
                 }}>Save Answer</Button>
             </div>
         </DialogHeader>
-        <div className='w-full m-w-[100%]'><MDEditor.Markdown source={answer} className=' !h-full max-h-[40vh] overflow-auto'/></div>
+        <MDEditor.Markdown source={answer} className='w-full !h-full max-h-[40vh] overflow-auto'/>
         <div className="h-4"></div>
-        <div className='w-full m-w-[100%]'><CodeReferences filesReferences={filesReferences} /></div>
+        <CodeReferences filesReferences={filesReferences} />
         <Button type='button' onClick={() => {setOpen(false)}}>
             Close
         </Button>
