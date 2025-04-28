@@ -84,7 +84,7 @@ const AskQuestionCard = () => {
                 <form onSubmit={onSubmit}>
                     <Textarea placeholder='Which file should I edit to change the home page?' value={question} onChange={e => setQuestion(e.target.value)}/>
                     <div className="h-4"></div>
-                    <Button className="bg-slate-200" type='submit' disabled={loading}>Ask</Button>
+                    <Button className="bg-slate-200" type='submit' disabled={loading}>{loading? 'Thinking...':'Ask'}</Button>
                 </form>
             </CardContent>
         </Card>
