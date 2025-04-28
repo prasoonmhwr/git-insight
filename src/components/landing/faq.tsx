@@ -15,13 +15,13 @@ const FAQ = () => {
             question: "What is GitInsight and how does it work?",
             answer: "GitInsight is an AI-powered analytics platform that helps teams understand and improve their development workflow. It analyzes your Git repository data and meeting recordings to provide actionable insights and automated issue tracking."
         },
+        // {
+        //     question: "How does GitInsight analyze meeting recordings?",
+        //     answer: "GitInsight uses advanced AI models to transcribe and analyze meeting recordings, automatically identifying action items, decisions, and potential issues. It then creates structured tickets and links them to relevant code sections in your repository."
+        // },
         {
-            question: "How does GitInsight analyze meeting recordings?",
-            answer: "GitInsight uses advanced AI models to transcribe and analyze meeting recordings, automatically identifying action items, decisions, and potential issues. It then creates structured tickets and links them to relevant code sections in your repository."
-        },
-        {
-            question: "Is my code and meeting data secure?",
-            answer: "Yes, we take security seriously. Your code repositories are accessed securely through Git provider APIs, and meeting recordings are stored on Firebase, Google's secure cloud platform. Firebase provides enterprise-grade security with data encryption at rest and in transit, automated backups, and compliance with industry standards. We implement additional security measures including access controls and authentication to ensure your data remains protected."
+            question: "Is my code data secure?",
+            answer: "Yes, we take security seriously. Your code repositories are accessed securely through Git provider APIs. We implement additional security measures including access controls and authentication to ensure your data remains protected."
         },
         // {
         //     question: "Can GitInsight integrate with my existing tools?",
@@ -31,10 +31,10 @@ const FAQ = () => {
             question: "What kind of insights can I expect?",
             answer: "GitInsight provides detailed analytics on code quality, team productivity, bottlenecks, and potential issues. You'll get actionable recommendations for improving code review processes, reducing technical debt, and optimizing team collaboration."
         },
-        {
-            question: "How much does GitInsight cost?",
-            answer: "We offer flexible pricing plans based on team size and usage. Choose from our Standard, Professional, or Enterprise plans to get the features that best suit your team's needs. Contact our sales team for detailed pricing information and to find the right plan for your organization."
-        }
+        // {
+        //     question: "How much does GitInsight cost?",
+        //     answer: "We offer flexible pricing plans based on team size and usage. Choose from our Standard, Professional, or Enterprise plans to get the features that best suit your team's needs. Contact our sales team for detailed pricing information and to find the right plan for your organization."
+        // }
     ];
 
     return (

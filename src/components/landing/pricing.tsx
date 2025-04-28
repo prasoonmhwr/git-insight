@@ -9,7 +9,7 @@ const pricingPlans = [
     features: [
       "150",
       "Basic Git repository integration",
-      "Meeting transcription & insights",
+      // "Meeting transcription & insights",
       "Email support",
     ],
   },

@@ -6,7 +6,6 @@ import Link from 'next/link'
 import React from 'react'
 import CommitLog from './commit-log'
 import AskQuestionCard from './ask-question-card'
-import MeetingCard from './meeting-card'
 import ArchiveButton from './archive-button'
 import dynamic from 'next/dynamic'
 const InviteButton = dynamic(()=> import('./invite-button'), {ssr:false})
@@ -21,13 +20,13 @@ const Dashboard = () => {
       {project?.status == "PENDING_INDEX" && <div className='h-[calc(100vh-170px)] flex items-center justify-center font-sans text-2xl'>Indexing....</div>}
       {project?.status == "INDEXED" && <div className='h-[calc(100vh-170px)] flex items-center justify-center font-sans text-2xl'>Polling Commits....</div>}
       {project?.status == "COMMITS_PROCESSED" && <><div className='flex items-center justify-between flex-wrap gap-y-4'>
-        <div className='w-fit rounded-md bg-slate-200 px-4 py-3'>
+        <div className='w-full sm:w-fit rounded-md bg-slate-200 px-4 py-3'>
           <div className="flex items-center">
             <Github className='size-5 text-slate-900' />
             <div className='ml-2'>
               <p className='text-sm font-medium text-slate-900'>
                 This project is linked to {' '}
-                <Link href={project?.repoUrl ?? ""} className='inline-flex items-center text-slate-900/80 hover:underline'>
+                <Link href={project?.repoUrl ?? ""} className='inline-flex items-center text-slate-900/80 hover:underline break-all'>
                   {project?.repoUrl}
                   <ExternalLink className='ml-1 size-4' />
                 </Link>
@@ -48,7 +47,6 @@ const Dashboard = () => {
       <div className="mt-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
           <AskQuestionCard />
-          {/* <MeetingCard /> */}
         </div>
       </div>
 

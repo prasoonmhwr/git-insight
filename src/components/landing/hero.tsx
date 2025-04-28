@@ -41,7 +41,7 @@ const Hero = () => {
 
                                 <p className="text-xl text-slate-300">
                                     Revolutionize your development workflow with AI-powered repository analysis,
-                                    automated issue generation from meetings, and intelligent project insights.
+                                    and intelligent project insights.
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row gap-4">

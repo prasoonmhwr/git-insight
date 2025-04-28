@@ -16,7 +16,7 @@ const Feature = () => {
          </p>
        </div>
 
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
          
          <div className="p-6 rounded-xl border border-slate-800 bg-slate-800/50 hover:border-blue-500/50 transition">
            <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
@@ -26,18 +26,6 @@ const Feature = () => {
            <p className="text-slate-300">
              Seamlessly connect your repositories and start analyzing your codebase with our 
              powerful AI tools.
-           </p>
-         </div>
-
-         
-         <div className="p-6 rounded-xl border border-slate-800 bg-slate-800/50 hover:border-blue-500/50 transition">
-           <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-             <Mic className="h-6 w-6 text-blue-400" />
-           </div>
-           <h3 className="text-xl font-semibold text-slate-100 mb-2">Meeting Analysis</h3>
-           <p className="text-slate-300">
-             Convert meeting recordings into actionable issues and tasks automatically using 
-             advanced AI transcription.
            </p>
          </div>
 

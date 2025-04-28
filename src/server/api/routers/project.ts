@@ -69,11 +69,55 @@ export const projectRouter = createTRPCRouter({
             }
         })
     }),
-    getCommits: protectedProcedure.input(z.object({
-        projectId: z.string()
-    })).query(async({ctx,input})=>{
-        pollCommits(input.projectId).then().catch(console.error)
-        return await ctx.db.commit.findMany({where: {projectId: input.projectId}})
+    getCommits: protectedProcedure
+    .input(z.object({
+      projectId: z.string(),
+      cursor: z.string().optional(), // ID of the last item from previous batch
+      limit: z.number().int().positive().default(10)
+    }))
+    .query(async ({ ctx, input }) => {
+        console.log("Getting commits with:", { 
+            projectId: input.projectId, 
+            cursor: input.cursor, 
+            limit: input.limit 
+          });
+          
+          // Start the background polling (unchanged)
+          pollCommits(input.projectId).then().catch(console.error);
+          
+          // Find commits with cursor-based pagination
+          const commits = await ctx.db.commit.findMany({
+            where: { 
+              projectId: input.projectId,
+              ...(input.cursor 
+                ? { id: { lt: input.cursor } } // Get items with ID less than cursor
+                : {})
+            },
+            take: input.limit + 1, // Take one extra to check if more exist
+            orderBy: { createdAt: 'desc' } // Newest first
+          });
+          
+          // Log what we found
+          console.log(`Found ${commits.length} commits`);
+          
+          // Check if there are more results
+          let nextCursor: string | undefined = undefined;
+          if (commits.length > input.limit) {
+            const nextItem = commits.pop(); // Remove the extra item
+            nextCursor = nextItem?.id;
+          }
+          
+          // Log what we're returning
+          console.log("Returning:", { 
+            commitCount: commits.length, 
+            hasNextCursor: !!nextCursor,
+            nextCursor 
+          });
+      
+      return {
+        commits,
+        nextCursor
+      };
     }),
     saveAnswer: protectedProcedure.input(z.object({
         projectId: z.string(),

@@ -3,13 +3,45 @@ import { Skeleton } from '@/components/ui/skeleton'
 import useProject from '@/hooks/use-project'
 import { cn } from '@/lib/utils'
 import { api } from '@/trpc/react'
+import { Commit } from '@prisma/client'
 import { ExternalLink } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
+
+interface GetCommitsResponse {
+  items: Commit[];
+  nextCursor: string | undefined;
+}
 const CommitLog = () => {
   const { projectId, project } = useProject()
-  const { data: commits, isLoading } = api.project.getCommits.useQuery({ projectId })
+  const [commits, setCommits] = useState<Commit[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+  
+  const { data, fetchNextPage, isFetchingNextPage, isLoading } = api.project.getCommits.useInfiniteQuery(
+    {
+      projectId,
+      limit: 2,
+    },
+    {
+      getNextPageParam: (lastPage:any) => {
+        console.log("getNextPageParam called with:", lastPage);
+        return lastPage.nextCursor;
+      },
+    }
+  );
+  useEffect(() => {
+    if (data) {
+      const allCommits = data.pages.flatMap(page => page.commits);
+      setCommits(allCommits);
+      
+      
+      const lastPage = data.pages[data.pages.length - 1];
+      console.log(lastPage)
+      lastPage && setHasMore(!!lastPage.nextCursor);
+    }
+  }, [data]);
+ 
   return (
     <>
     {isLoading && [1, 2, 3, 4, 5].map((i) => (<Skeleton key={i} className="h-[120px] mt-2 rounded-xl bg-slate-800" />))}
@@ -48,6 +80,19 @@ const CommitLog = () => {
           </li>
         })}
       </ul>
+      {hasMore && (
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="load-more-button"
+        >
+          {isFetchingNextPage ? 'Loading more...' : 'Load More'}
+        </button>
+      )}
+      
+      {!hasMore && commits.length > 0 && (
+        <div className="no-more-commits">No more commits to load</div>
+      )}
     </>
   )
 }
