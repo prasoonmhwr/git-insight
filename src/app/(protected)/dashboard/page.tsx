@@ -51,7 +51,7 @@ const Dashboard = () => {
       </div>
 
       <div className='mt-8'></div>
-      <CommitLog /> </>}
+      <div><CommitLog /></div> </>}
     </div>
 
   )

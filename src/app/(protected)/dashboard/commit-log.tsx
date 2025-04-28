@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import useProject from '@/hooks/use-project'
 import { cn } from '@/lib/utils'
@@ -21,7 +22,7 @@ const CommitLog = () => {
   const { data, fetchNextPage, isFetchingNextPage, isLoading } = api.project.getCommits.useInfiniteQuery(
     {
       projectId,
-      limit: 2,
+      limit: 5,
     },
     {
       getNextPageParam: (lastPage:any) => {
@@ -80,19 +81,19 @@ const CommitLog = () => {
           </li>
         })}
       </ul>
-      {hasMore && (
-        <button
+      <div className='w-full mt-4 flex justify-center'>{hasMore && (
+        <Button
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
-          className="load-more-button"
+          className="load-more-button w-full"
         >
           {isFetchingNextPage ? 'Loading more...' : 'Load More'}
-        </button>
+        </Button>
       )}
       
       {!hasMore && commits.length > 0 && (
-        <div className="no-more-commits">No more commits to load</div>
-      )}
+        <div className="no-more-commits w-2/3 text-slate-500 inline-flex items-center justify-between"> <span className="border-t border-slate-500 w-2/5 "></span><span className='w-fit flex justify-center font-light text-sm'> No more commits to load</span> <span className="border-t border-slate-500 w-2/5 "></span></div>
+      )}</div>
     </>
   )
 }

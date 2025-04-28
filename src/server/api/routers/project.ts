@@ -76,43 +76,29 @@ export const projectRouter = createTRPCRouter({
       limit: z.number().int().positive().default(10)
     }))
     .query(async ({ ctx, input }) => {
-        console.log("Getting commits with:", { 
-            projectId: input.projectId, 
-            cursor: input.cursor, 
-            limit: input.limit 
-          });
           
-          // Start the background polling (unchanged)
           pollCommits(input.projectId).then().catch(console.error);
-          
-          // Find commits with cursor-based pagination
+         
           const commits = await ctx.db.commit.findMany({
             where: { 
               projectId: input.projectId,
               ...(input.cursor 
-                ? { id: { lt: input.cursor } } // Get items with ID less than cursor
+                ? { commitDate: { lt: new Date(input.cursor) } } 
                 : {})
             },
-            take: input.limit + 1, // Take one extra to check if more exist
-            orderBy: { createdAt: 'desc' } // Newest first
+            take: input.limit + 1, 
+            orderBy: { commitDate: 'desc' } 
           });
           
-          // Log what we found
-          console.log(`Found ${commits.length} commits`);
-          
-          // Check if there are more results
-          let nextCursor: string | undefined = undefined;
+         
+          let nextCursor: string | undefined | number = undefined;
           if (commits.length > input.limit) {
-            const nextItem = commits.pop(); // Remove the extra item
-            nextCursor = nextItem?.id;
+            const nextItem = commits.pop(); 
+            if(nextItem){
+                nextCursor = nextItem?.commitDate.toISOString() 
+            }
+            
           }
-          
-          // Log what we're returning
-          console.log("Returning:", { 
-            commitCount: commits.length, 
-            hasNextCursor: !!nextCursor,
-            nextCursor 
-          });
       
       return {
         commits,
