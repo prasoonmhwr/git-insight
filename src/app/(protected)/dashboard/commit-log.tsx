@@ -26,7 +26,6 @@ const CommitLog = () => {
     },
     {
       getNextPageParam: (lastPage:any) => {
-        console.log("getNextPageParam called with:", lastPage);
         return lastPage.nextCursor;
       },
     }
@@ -38,7 +37,6 @@ const CommitLog = () => {
       
       
       const lastPage = data.pages[data.pages.length - 1];
-      console.log(lastPage)
       lastPage && setHasMore(!!lastPage.nextCursor);
     }
   }, [data]);
@@ -47,7 +45,7 @@ const CommitLog = () => {
     <>
     {isLoading && [1, 2, 3, 4, 5].map((i) => (<Skeleton key={i} className="h-[120px] mt-2 rounded-xl bg-slate-800" />))}
       <ul className='space-y-6'>
-        {commits?.map((commit, commitIdx) => {
+        {data?.pages.flatMap(page => page.commits)?.map((commit, commitIdx) => {
           return <li key={commit.id} className='relative flex gap-x-4'>
             <div className={cn(
               commitIdx === commits.length - 1 ? 'h-6' : '-bottom-6',

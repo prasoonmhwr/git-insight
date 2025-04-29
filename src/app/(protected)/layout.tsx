@@ -1,5 +1,5 @@
 'use client'
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { UserButton } from '@clerk/nextjs'
 import React from 'react'
 import { AppSidebar } from './app-sidebar'
@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { usePathname } from 'next/navigation'
+import Image from "next/image"
 type Props = {
     children: React.ReactNode
 }
@@ -45,24 +46,19 @@ const SidebarLayout = ({ children }: Props) => {
             />
 
             <SidebarProvider>
-                {/* <AppSidebar /> */}
+                <AppSidebar />
                 <main className='w-full m-2 bg-slate-950'>
-                    <div className='flex items-center gap-2 border-side-border bg-slate-900 border shadow rounded-md p-0 px-4'>
+                    <div className='flex items-center gap-2 border-side-border bg-slate-900 border shadow rounded-md p-2 px-4'>
                         {/* <SearchBar /> */}
-                        <div className="w-full flex justify-between">
-                            <div className='flex justify-start w-full'>
-                                
-                                    {items.map(((item, index) => {
-                                        return (<div key={index} className="mr-4 py-2 w-auto flex text-slate-500"><Link  href={item.url} className={cn({
-                                            '!border-b !border-b-slate-200 !text-slate-200': pathname == item.url
-                                        }, 'flex items-center h-[35px]')}>
-                                            <item.icon />
-                                            <span className='ml-2 '>{item.title}</span>
-                                        </Link></div>
-
-                                        )
-                                    }))}
-                                
+                        <div className='block md:hidden z-10 fixed left-0 top-12 w-8 h-8 bg-slate-600 rounded-r flex justify-center items-center'>
+                            <SidebarTrigger className=' [&_svg]:size-5 flex justify-center items-center' />
+                        </div>
+                        <div className="w-full flex justify-between sm:justify-end">
+                            <div className="flex items-center gap-2 sm:hidden">
+                                <Image src="/logo.png" alt="Logo" width={40} height={40} />
+                                <h1 className="text-xl font-bold text-primary/80">
+                                    GitInsight
+                                </h1>
                             </div>
                             <UserButton
                                 appearance={{
