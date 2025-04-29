@@ -1,6 +1,6 @@
 # AI-Powered Project Analytics Platform
 
-A sophisticated web application that leverages artificial intelligence to analyze software projects and meeting recordings, providing automated insights and issue tracking.
+A sophisticated web application that leverages artificial intelligence to analyze software projects, providing automated insights and issue tracking.
 
 ## Features
 
@@ -12,13 +12,6 @@ A sophisticated web application that leverages artificial intelligence to analyz
 - Performance optimization suggestions
 - Security vulnerability detection
 
-### Meeting Intelligence
-- Convert meeting recordings to text using AssemblyAI
-- Generate actionable insights and tasks using GeminiAI
-- Automatic issue creation from meeting discussions
-- Meeting summary generation
-- Action item extraction and assignment
-- Timeline and deadline tracking
 
 ## Tech Stack
 
@@ -30,17 +23,13 @@ A sophisticated web application that leverages artificial intelligence to analyz
 
 ### Backend
 - **Prisma** - Type-safe database ORM
-- **Firebase** - Cloud storage and real-time updates
-- **AssemblyAI** - Speech-to-text conversion and audio analysis
-- **GeminiAI** - Advanced AI model for project and meeting analysis
+- **GeminiAI** - Advanced AI model for project analysis
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js 18.0 or higher
 - npm or yarn package manager
-- Firebase account
-- AssemblyAI API key
 - GeminiAI API key
 - GitHub OAuth credentials
 
@@ -75,14 +64,7 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=
 NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL= '/sync-user'
 DATABASE_URL=
 
-FIREBASE_API_KEY=
-FIREBASE_DOMAIN=
-FIREBASE_PROJECT_ID=
-FIREBASE_STORAGE_BUCKET=
-FB_MESSAGING_SENDER_ID=
-FIREBASE_APPID=
 
-ASSEMBLYAI_API_KEY=
 GEMINI_API_KEY=
 RAZORPAY_KEY_ID=
 RAZORPAY_KEY_SECRET=

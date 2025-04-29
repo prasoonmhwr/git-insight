@@ -33,12 +33,14 @@ const AskQuestionCard = () => {
         const {output,filesReferences} = await askQuestion(question, project.id)
         setOpen(true)
         setFilesReferences(filesReferences)
+        setLoading(false)
+        setQuestion('')
         for await(const delta of readStreamableValue(output)){
             if(delta){
                 setAnswer(ans=>ans+delta)
             }
         }
-        setLoading(false)
+        
     }
     const refetch = useRefetch()
   return (
@@ -82,9 +84,9 @@ const AskQuestionCard = () => {
             </CardHeader>
             <CardContent>
                 <form onSubmit={onSubmit}>
-                    <Textarea placeholder='Which file should I edit to change the home page?' value={question} onChange={e => setQuestion(e.target.value)}/>
+                    <Textarea placeholder='Which file should I edit to change the home page?' className='resize-none' value={question} onChange={e => setQuestion(e.target.value)}/>
                     <div className="h-4"></div>
-                    <Button className="bg-slate-200" type='submit' disabled={loading}>Ask</Button>
+                    <div className='w-full flex justify-end'><Button className="bg-slate-200" type='submit' disabled={loading}>{loading? 'Thinking...':'Ask'}</Button></div>
                 </form>
             </CardContent>
         </Card>
