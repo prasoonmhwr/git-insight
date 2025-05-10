@@ -1,9 +1,10 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 import useProject from "@/hooks/use-project"
 import { cn } from "@/lib/utils"
+import { UserButton } from "@clerk/nextjs"
 import { Bot, CreditCard, LayoutDashboard, Plus, Presentation } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -37,13 +38,12 @@ export function AppSidebar() {
     const { open } = useSidebar()
     const { projects, projectId,setProjectId } = useProject()
     return (
-        <Sidebar className="bg-slate-950" collapsible="icon" variant="floating">
+        <Sidebar className="bg-slate-950 p-0 rounded-none" collapsible="icon" variant="floating">
             <SidebarHeader className="bg-slate-900">
                 <div className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="Logo" width={40} height={40} />
-                    {open && (<h1 className="text-xl font-bold text-primary/80">
-                        GitInsight
-                    </h1>)}
+                    <Image src="/logo2.svg" alt="Logo" width={40} height={40} />
+                    {open && (<h1 className="tracking-tight "><span className="pl-2 text-2xl font-bold tracking-tighter text-white" >Git</span>
+                            <span className="text-transparent text-2xl font-bold bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Insight </span></h1>)}
                 </div>
             </SidebarHeader>
             <SidebarContent className="bg-slate-900">
@@ -57,8 +57,8 @@ export function AppSidebar() {
                                 return (<SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <Link href={item.url} className={cn({
-                                            '!bg-slate-200 !text-slate-500': pathname == item.url
-                                        })}>
+                                            '!bg-blue-200 !text-blue-500': pathname == item.url
+                                        }, 'hover:bg-blue-900')}>
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </Link>
@@ -80,10 +80,10 @@ export function AppSidebar() {
                                         <SidebarMenuButton asChild>
                                             <div onClick={()=>{
                                                 setProjectId(project.id)
-                                            }}>
-                                                <div className={cn('rounded-sm border size-6 flex items-center justify-center text-sm bg-slate-950 text-slate-200',
+                                            }} className="hover:bg-blue-900">
+                                                <div className={cn('rounded-sm border size-6 flex items-center justify-center text-sm bg-blue-950 text-blue-200 ',
                                                     {
-                                                        'bg-slate-200 text-slate-500': project.id === projectId
+                                                        'bg-blue-200 text-blue-500': project.id === projectId
                                                     }
                                                 )}>
                                                     {project.name[0]}
@@ -97,7 +97,7 @@ export function AppSidebar() {
                             <div className="h-2"></div>
                             <SidebarMenuItem className="text-center">
                                 <Link href={'/create'}>
-                                    <Button size='sm' variant={'outline'} className="w-full bg-slate-500">
+                                    <Button size='sm' variant={'outline'} className="w-full bg-blue-600">
                                         <Plus />
                                         {open && ('Create Project')}
                                     </Button>
@@ -108,6 +108,20 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter className="bg-slate-900 pb-6">
+            <UserButton
+                                appearance={{
+                                    elements: {
+                                        userButtonPopoverMain: "bg-slate-800",
+                                        userPreview: "text-slate-400",
+                                        userButtonPopoverActionButton__manageAccount: "text-slate-400",
+                                        userButtonPopoverActionButton__signOut: "text-slate-400",
+                                        userButtonPopoverFooter: "bg-gradient-to-b from-slate-700 to-slate-900"
+                                    }
+                                }
+                                }
+                            />
+            </SidebarFooter>
         </Sidebar>
 
     )

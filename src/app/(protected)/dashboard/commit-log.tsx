@@ -55,7 +55,7 @@ const CommitLog = () => {
             </div>
             <>
               <img src={commit.commitAuthorAvatar} alt='commit avatar' className='relative mt-4 size-8 flex-none rounded-full bg-slate-900' />
-              <div className="flex-auto rounded-md bg-slate-950 p-3 ring-1 ring-inset ring-slate-700">
+              <div className="flex-auto rounded-md bg-slate-950 p-3 ring-1 ring-inset ring-slate-700 shadow-lg shadow-blue-950/50">
                 <div className="flex justify-between gap-x-4">
                   <Link target='_blank' href={`${project?.repoUrl}/commit/${commit.commitHash}`} className='py-0.5 text-xs leading-5 text-slate-500'>
                     <span className='font-medium text-slate-300'>
@@ -83,7 +83,7 @@ const CommitLog = () => {
         <Button
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
-          className="load-more-button w-full"
+          className="load-more-button w-full bg-blue-600 text-slate-100 hover:bg-blue-700"
         >
           {isFetchingNextPage ? 'Loading more...' : 'Load More'}
         </Button>

@@ -27,7 +27,7 @@ const InviteButton = () => {
                     />
                 </DialogContent>
             </Dialog>
-            <Button size='sm' className='bg-slate-200' onClick={() => setOpen(true)}>Invite Members</Button>
+            <Button size='sm' className='bg-blue-600 hover:bg-blue-700 text-slate-100' onClick={() => setOpen(true)}>Invite Members</Button>
         </>
     )
 }

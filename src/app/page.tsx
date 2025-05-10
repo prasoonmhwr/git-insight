@@ -22,8 +22,9 @@ export default async function Home() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
-                            <Image src="/logo.png" height={30} width={30} alt="logo"/>
-                            <span className="ml-2 text-xl font-bold text-slate-100">GitInsight</span>
+                            <Image src="/logo2.svg" height={30} width={30} alt="logo"/>
+                            <span className="pl-2 text-xl font-bold tracking-tighter text-white" >Git</span>
+                            <span className="text-transparent text-xl font-bold bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600"> Insight </span>
                         </div>
                         <div className="hidden md:flex items-center space-x-8">
                             <a href="#home" className="text-slate-300 hover:text-slate-100">Home</a>

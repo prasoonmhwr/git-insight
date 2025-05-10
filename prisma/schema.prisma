@@ -23,7 +23,7 @@ model User {
 
     emailAddress String @unique
 
-    credits Int @default(100)
+    credits Int @default(20)
     userToProjects UserToProject[]
     questionsAsked Question[]
     transactions  Transaction[]
