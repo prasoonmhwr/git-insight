@@ -35,7 +35,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="h-4"></div>
 
         <div className='flex items-center gap-4'>
           <TeamMembers />
@@ -44,14 +43,17 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="mt-4">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+      <div className="mt-6">
+      {project && (
+          <h1 className="text-2xl font-bold text-white mb-4">{project.name}</h1>
+        )}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 shadow-lg shadow-slate-950/50">
           <AskQuestionCard />
         </div>
       </div>
 
-      <div className='mt-8'></div>
-      <div><CommitLog /></div> </>}
+      
+      <div className='mt-4'> <h2 className="text-xl font-semibold text-white mb-4">Commits</h2><CommitLog /></div> </>}
     </div>
 
   )

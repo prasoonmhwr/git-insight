@@ -13,6 +13,8 @@ import CodeReferences from './code-references'
 import { api } from '@/trpc/react'
 import { toast } from 'sonner'
 import useRefetch from '@/hooks/use-refetch'
+import { MessageCircle } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 const AskQuestionCard = () => {
     const {project} = useProject()
@@ -50,7 +52,7 @@ const AskQuestionCard = () => {
         <DialogHeader>
             <div className="flex items-center gap-2">
                 <DialogTitle>
-                    <Image src='/logo.png' alt='gitInsight' width={40} height={40}/>
+                    <Image src='/logo2.svg' alt='gitInsight' width={40} height={40}/>
                 </DialogTitle>
                 <Button disabled={saveAnswer.isPending} className='ml-4 bg-slate-600' variant={'outline'} onClick={()=>{
                     saveAnswer.mutate({
@@ -78,7 +80,7 @@ const AskQuestionCard = () => {
         </Button>
         </DialogContent>
     </Dialog>
-        <Card className='relative col-span-3 bg-slate-950 ring-1 ring-inset ring-slate-700'>
+        {/* <Card className='relative col-span-3 bg-slate-950 ring-1 ring-inset ring-slate-700/80'>
             <CardHeader>
                 <CardTitle>Ask a question</CardTitle>
             </CardHeader>
@@ -86,10 +88,27 @@ const AskQuestionCard = () => {
                 <form onSubmit={onSubmit}>
                     <Textarea placeholder='Which file should I edit to change the home page?' className='resize-none' value={question} onChange={e => setQuestion(e.target.value)}/>
                     <div className="h-4"></div>
-                    <div className='w-full flex justify-end'><Button className="bg-slate-200" type='submit' disabled={loading}>{loading? 'Thinking...':'Ask'}</Button></div>
+                    <div className='w-full flex justify-end'><Button className="bg-blue-500 text-slate-100" type='submit' disabled={loading}>{loading? 'Thinking...':'Ask'}</Button></div>
                 </form>
             </CardContent>
-        </Card>
+        </Card> */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <MessageCircle className="h-4 w-4 text-blue-400" />
+            <span className="text-sm font-medium text-gray-300">Ask a question</span>
+          </div>
+          <form onSubmit={onSubmit} className='w-full'>
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              placeholder="Enter your question..."
+              className="flex-1 text-sm bg-gray-800 border-gray-700 text-white"
+              value={question} onChange={e => setQuestion(e.target.value)}
+            />
+            <Button className="text-xs bg-blue-600 hover:bg-blue-700 text-white" type='submit' disabled={loading}>{loading? 'Thinking...':'Ask'}</Button>
+          </div>
+            </form>
+        </div>
     </>
   )
 }
